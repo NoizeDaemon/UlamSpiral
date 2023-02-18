@@ -1,0 +1,7 @@
+D:\Coding\Small Projects\MinimalSample\MinimalSample\obj\Release\net7.0\MinimalSample.csproj.AssemblyReference.cache
+D:\Coding\Small Projects\MinimalSample\MinimalSample\obj\Release\net7.0\Avalonia\Resources.Inputs.cache
+D:\Coding\Small Projects\MinimalSample\MinimalSample\obj\Release\net7.0\Avalonia\resources
+D:\Coding\Small Projects\MinimalSample\MinimalSample\obj\Release\net7.0\MinimalSample.GeneratedMSBuildEditorConfig.editorconfig
+D:\Coding\Small Projects\MinimalSample\MinimalSample\obj\Release\net7.0\MinimalSample.AssemblyInfoInputs.cache
+D:\Coding\Small Projects\MinimalSample\MinimalSample\obj\Release\net7.0\MinimalSample.AssemblyInfo.cs
+D:\Coding\Small Projects\MinimalSample\MinimalSample\obj\Release\net7.0\MinimalSample.csproj.CoreCompileInputs.cache

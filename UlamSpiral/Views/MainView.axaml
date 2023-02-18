@@ -1,0 +1,71 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:UlamSpiral.ViewModels"
+			 xmlns:local="clr-namespace:UlamSpiral"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="UlamSpiral.Views.MainView"
+             Foreground="White"
+             Background="#171C2C"
+			 x:DataType="viewModels:MainViewModel"
+			 x:CompileBindings="True">
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <viewModels:MainViewModel />
+  </Design.DataContext>
+
+	<UserControl.Resources>
+		<local:StringToControlConverter x:Key="stringToControlConverter"/>
+		<local:ConditionalColorConverter x:Key="conditionalColorConverter"/>
+		<SolidColorBrush x:Key="white">White</SolidColorBrush>
+	</UserControl.Resources>
+
+	<Grid RowDefinitions="70,50,*" Margin="10" x:Name="mainGrid">
+
+		<RelativePanel Grid.Row="0" Margin="10">
+			<Grid x:Name="Grid1" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
+				<Ellipse Width="50" Height="50" Fill="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				<TextBlock Text="1" Foreground="Black" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+			</Grid>
+			<Grid x:Name="Grid2" local:EasyAlignWith.Direction="RightOf" local:EasyAlignWith.Target="Grid1">
+				<Ellipse Width="50" Height="50" Fill="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				<TextBlock Text="1"	Foreground="Black" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+			</Grid>
+		</RelativePanel>
+				<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+			<TextBlock Text="Find all prime numbers up to:" VerticalAlignment="Center"/>
+			<!--<TextBox  Width="20" Text="{Binding UpperLimitText}" MaxLength="9" />-->
+			<NumericUpDown ShowButtonSpinner="False" ClipValueToMinMax="True" Minimum="10" Maximum="999999999" AllowSpin="False" Value="{Binding UpperLimit}"/>
+			<Button Command="{Binding StartCalculationCommand}">Go!</Button>
+			<Button Click="OnResetButtonClick">Go!</Button>
+		</StackPanel>
+
+		<ItemsControl Grid.Row="2" Items="{Binding NumberItems}" x:Name="itemsControl" Width="500" Height="500" AreHorizontalSnapPointsRegular="False" AreVerticalSnapPointsRegular="False">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<RelativePanel x:Name="relativePanel"/>
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Grid HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="{Binding Name}"
+						  RelativePanel.AlignHorizontalCenterWithPanel="{Binding Neighbor, Converter={x:Static StringConverters.IsNullOrEmpty}}"
+						  RelativePanel.AlignVerticalCenterWithPanel="{Binding Neighbor, Converter={x:Static StringConverters.IsNullOrEmpty}}"
+						  local:EasyAlignWith.Direction="{Binding Direction}">
+						<local:EasyAlignWith.Target>
+							<MultiBinding Converter="{StaticResource stringToControlConverter}">
+								<Binding Path="#itemsControl"/>
+								<Binding Path="Neighbor"/>
+							</MultiBinding>
+						</local:EasyAlignWith.Target>
+						<Ellipse Width="50" Height="50" Fill="{Binding IsPrime, Converter={StaticResource conditionalColorConverter}, ConverterParameter={StaticResource white}}"/>
+						<TextBlock Text="{Binding Number}"/>
+					</Grid>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>	
+	</Grid>
+</UserControl>
+
