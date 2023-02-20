@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:UlamSpiral.ViewModels"
+			 xmlns:views="clr-namespace:UlamSpiral.Views"
 			 xmlns:local="clr-namespace:UlamSpiral"
 			 xmlns:model="clr-namespace:UlamSpiral.Models;assembly=UlamSpiral"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -11,49 +12,50 @@
              Background="#171C2C"
 			 x:DataType="viewModels:MainViewModel"
 			 x:CompileBindings="True">
-  <Design.DataContext>
-    <!-- This only sets the DataContext for the previewer in an IDE,
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-    <viewModels:MainViewModel />
-  </Design.DataContext>
+		<viewModels:MainViewModel />
+	</Design.DataContext>
 
 	<UserControl.Resources>
 		<local:StringToControlConverter x:Key="stringToControlConverter"/>
 		<local:ConditionalColorConverter x:Key="conditionalColorConverter"/>
 		<local:DirectionToLineEndPointConverter x:Key="directionToPolylineConverter"/>
+		<local:ItemCountToSizeConverter x:Key="itemCountToSizeConverter"/>
 		<SolidColorBrush x:Key="white">White</SolidColorBrush>
 	</UserControl.Resources>
-	
+
 	<UserControl.Styles>
 		<Style Selector="#itemsControl > ContentPresenter">
-			<Setter Property="RelativePanel.AlignHorizontalCenterWithPanel" Value="{ReflectionBinding Neighbor, Converter={x:Static StringConverters.IsNullOrEmpty}}"/>
-			<Setter Property="RelativePanel.AlignVerticalCenterWithPanel" Value="{ReflectionBinding Neighbor, Converter={x:Static StringConverters.IsNullOrEmpty}}"/>
-			<Setter Property="Name" Value="{ReflectionBinding Name}"/>
-			<Setter Property="local:EasyAlignWith.Direction" Value="{ReflectionBinding Direction}"/>
+			<Setter Property="RelativePanel.AlignHorizontalCenterWithPanel" Value="{Binding Neighbor, Converter={x:Static StringConverters.IsNullOrEmpty}, DataType={x:Type model:NumberItem}}"/>
+			<Setter Property="RelativePanel.AlignVerticalCenterWithPanel" Value="{Binding Neighbor, Converter={x:Static StringConverters.IsNullOrEmpty}, DataType={x:Type model:NumberItem}}"/>
+			<Setter Property="Name" Value="{Binding Name, DataType={x:Type model:NumberItem}}"/>
+			<Setter Property="local:EasyAlignWith.Direction" Value="{Binding Direction, DataType={x:Type model:NumberItem}}"/>
 			<Setter Property="local:EasyAlignWith.Target">
 				<Setter.Value>
-					<MultiBinding Converter="{StaticResource stringToControlConverter}" x:CompileBindings="False">
+					<MultiBinding Converter="{StaticResource stringToControlConverter}">
 						<Binding Path="#itemsControl"/>
-						<Binding Path="Neighbor"/>
+						<Binding Path="Neighbor" DataType="{x:Type model:NumberItem}"/>
 					</MultiBinding>
 				</Setter.Value>
 			</Setter>
 		</Style>
 		<Style Selector="#itemsControl > ContentPresenter > Panel > Polyline">
 			<Setter Property="Points">
-				<MultiBinding Converter="{StaticResource directionToPolylineConverter}" ConverterParameter="30" x:CompileBindings="False">
-					<Binding Path="Direction"/>
-					<Binding Path="Next"/>
+				<MultiBinding Converter="{StaticResource directionToPolylineConverter}" ConverterParameter="30">
+					<Binding Path="Direction" DataType="{x:Type model:NumberItem}"/>
+					<Binding Path="Next" DataType="{x:Type model:NumberItem}"/>
 					<!--<Binding Source="$root.DataContext" Path="ItemRadius"/>-->
 				</MultiBinding>
 			</Setter>
 		</Style>
 	</UserControl.Styles>
-	
-	
 
-	<Grid RowDefinitions="30,*" Margin="10" x:Name="mainGrid">
-		
+
+
+	<Grid RowDefinitions="Auto,*" Margin="10" x:Name="mainGrid">
+
 		<!--vvv Works fine vvv-->
 		<!--<RelativePanel Grid.Row="0" Margin="10">
 			<Grid x:Name="Grid1" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
@@ -93,15 +95,24 @@
 				<TextBlock Text="9"	Foreground="Black" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 			</Grid>
 		</RelativePanel>-->
-		
-			
+
+
 		<StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
 			<TextBlock Text="Find all prime numbers up to:" VerticalAlignment="Center"/>
 			<NumericUpDown ShowButtonSpinner="False" ClipValueToMinMax="True" Minimum="10" Maximum="999999999" AllowSpin="False" Value="{Binding UpperLimit}"/>
 			<Button Command="{Binding StartCalculationCommand}">Calculate!</Button>
 			<!--<Button Click="OnResetButtonClick">Invalidate Measure/Arrange</Button>-->
+			<Border>
+				<Border.Width>
+					<MultiBinding Converter="{StaticResource itemCountToSizeConverter}">
+						<Binding Path="NumberItems.Count" Mode="OneWay"/>
+						<Binding Path="#itemsControl.Height"/>
+					</MultiBinding>
+				</Border.Width>
+				<Ellipse Stretch="Uniform" Fill="White"/>
+			</Border>
 		</StackPanel>
-		
+
 		<ItemsControl Grid.Row="1" Items="{Binding NumberItems}" x:Name="itemsControl">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
@@ -119,7 +130,7 @@
 					</Panel>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
-		</ItemsControl>	
+		</ItemsControl>
 	</Grid>
 </UserControl>
 

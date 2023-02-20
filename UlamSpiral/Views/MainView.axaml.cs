@@ -19,20 +19,25 @@ using System.Linq;
 
 namespace UlamSpiral.Views
 {
-    public partial class MainView : UserControl
+    public partial class MainView : UserControl   
     {
+        public double Radius = 5;
+
         public MainView()
         {
             InitializeComponent();
-            
+            itemsControl.SizeChanged += ItemsControlSizeChanged;
+            itemsControl.PropertyChanged += ItemsControlPropertyChanged;
         }
 
-        void OnResetButtonClick(object sender, RoutedEventArgs e)
+        private void ItemsControlPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
         {
-            var visuals = this.GetVisualDescendants();
-            var panel = (RelativePanel)visuals.Where(x => x is RelativePanel).First();
-            panel.InvalidateMeasure();
-            panel.InvalidateArrange();
+            Debug.WriteLine("Property changed");
+        }
+
+        private void ItemsControlSizeChanged(object? sender, SizeChangedEventArgs e)
+        {
+            Debug.WriteLine("Size changed");
         }
     }
 }
