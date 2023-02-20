@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace UlamSpiral.Models
 {
-    public partial class NumberItemModel : ObservableObject
+    public partial class NumberItem : ObservableObject
     {
         [ObservableProperty]
         private string name;
@@ -20,7 +20,10 @@ namespace UlamSpiral.Models
         private bool isPrime;
 
         [ObservableProperty]
-        private Direction? direction;
+        private Direction direction;
+
+        [ObservableProperty]
+        private Direction next;
 
         [ObservableProperty]
         private string? neighbor;

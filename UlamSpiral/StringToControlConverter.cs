@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Avalonia.Data.Converters;
 using Avalonia.Data;
 using Avalonia.VisualTree;
+using Avalonia.Controls.Presenters;
 
 namespace UlamSpiral
 {
@@ -23,29 +24,28 @@ namespace UlamSpiral
                 values[1] is null)
             {
                 return BindingOperations.DoNothing;
-            }              
+            }
             else if ((string)values[1] == "")
             {
                 return AvaloniaProperty.UnsetValue;
             }
             else
             {
+                Control control;
                 Control parent = (Control)values[0];
                 string target = (string)values[1];
 
                 if (parent is ItemsControl)
                 {
-                    parent.InvalidateArrange();
-                    parent.InvalidateMeasure();
                     var children = ((ItemsControl)parent).GetVisualDescendants();
-                    Control control = (Control)children.Where(x => x.Name == target).First();
-                    return control ?? BindingOperations.DoNothing;
+                    control = (Control)children.First(x => x.Name == target && x is ContentPresenter);
                 }
                 else
                 {
-                    Control control = parent.FindControl<Control>(target);
-                    return control ?? BindingOperations.DoNothing;
+                    control = parent.FindControl<Control>(target);
                 }
+
+                return control ?? BindingOperations.DoNothing;
             }
         }
     }

@@ -15,36 +15,36 @@ namespace UlamSpiral.ViewModels
     public partial class MainViewModel : ObservableObject
     {
         [ObservableProperty]
+        private double itemsControlWidth, itemsControlHeight, itemRadius;
+
+        [ObservableProperty]
         private int upperLimit;
 
         private List<int> primeList = new();
 
-        private readonly SourceList<NumberItemModel> numberItemsSourceList = new();
-        private readonly ReadOnlyObservableCollection<NumberItemModel> numberItems;
-        public ReadOnlyObservableCollection<NumberItemModel> NumberItems => numberItems;
+        private readonly SourceList<NumberItem> numberItemsSourceList = new();
+        private readonly ReadOnlyObservableCollection<NumberItem> numberItems;
+        public ReadOnlyObservableCollection<NumberItem> NumberItems => numberItems;
 
         public MainViewModel()
         {
+            ItemRadius = 30;
+
             numberItemsSourceList
                 .Connect()
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Bind(out numberItems)
                 .Subscribe();
 
-            primeList.Add(2);
 
-            numberItemsSourceList.Add(new NumberItemModel
-            {
-                Name = "N1",
-                Number = 1,
-                IsPrime = false,
-                Direction = Direction.Unset
-            });
         }
 
         bool IsPrimeCheck(int n)
         {
+            if (n is 2) return true;
             int guide = primeList.Count > 5 ? primeList.FindLastIndex(x => x < n / 2) : primeList.Count;
+
+
 
             for (int p = 0; p < guide; p++)
             {
@@ -60,6 +60,17 @@ namespace UlamSpiral.ViewModels
         [RelayCommand]
         private void StartCalculation()
         {
+            primeList.Add(2);
+
+            numberItemsSourceList.Add(new NumberItem
+            {
+                Name = "N1",
+                Number = 1,
+                IsPrime = false,
+                Direction = Direction.Unset,
+                Next = Direction.RightOf
+            });
+
             int direction = 1;  //Direction=0=>Unset,1=>Right,2=>Above,3=>Left,4=>Below
             int maxStepsInDirection = 1;  //Increments every 2 direction changes (after UP & DOWN)
             int currentStepInDirection = 0;
@@ -68,7 +79,7 @@ namespace UlamSpiral.ViewModels
 
             for (int i = 2; i <= upperLimit; i++)
             {
-                var n = new NumberItemModel
+                var n = new NumberItem
                 {
                     Name = "N" + i,
                     Number = i,
@@ -76,6 +87,8 @@ namespace UlamSpiral.ViewModels
                     Neighbor = "N" + (i - 1),
                     Direction = (Direction)direction
                 };
+
+                NumberItems[i - 2].Next = (Direction)direction;
 
                 Debug.WriteLine($"{n.Name} (IsPrime={n.IsPrime}) added {n.Direction} {n.Neighbor}");
                 numberItemsSourceList.Add(n);
