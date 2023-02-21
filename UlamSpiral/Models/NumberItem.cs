@@ -11,22 +11,22 @@ namespace UlamSpiral.Models
     public partial class NumberItem : ObservableObject
     {
         [ObservableProperty]
-        private string name;
+        private string _name;
 
         [ObservableProperty]
-        private int number;
+        private int _number;
 
         [ObservableProperty]
-        private bool isPrime;
+        private bool _isPrime;
 
         [ObservableProperty]
-        private Direction direction;
+        private Direction _direction;
 
         [ObservableProperty]
-        private Direction next;
+        private Direction _nextDirection;
 
         [ObservableProperty]
-        private string? neighbor;
+        private string? _neighbor;
     }
 
     public enum Direction

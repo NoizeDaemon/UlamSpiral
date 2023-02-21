@@ -45,7 +45,7 @@
 			<Setter Property="Points">
 				<MultiBinding Converter="{StaticResource directionToPolylineConverter}" ConverterParameter="30">
 					<Binding Path="Direction" DataType="{x:Type model:NumberItem}"/>
-					<Binding Path="Next" DataType="{x:Type model:NumberItem}"/>
+					<Binding Path="NextDirection" DataType="{x:Type model:NumberItem}"/>
 					<!--<Binding Source="$root.DataContext" Path="ItemRadius"/>-->
 				</MultiBinding>
 			</Setter>
@@ -98,10 +98,14 @@
 
 
 		<StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+			
 			<TextBlock Text="Find all prime numbers up to:" VerticalAlignment="Center"/>
-			<NumericUpDown ShowButtonSpinner="False" ClipValueToMinMax="True" Minimum="10" Maximum="999999999" AllowSpin="False" Value="{Binding UpperLimit}"/>
-			<Button Command="{Binding StartCalculationCommand}">Calculate!</Button>
-			<!--<Button Click="OnResetButtonClick">Invalidate Measure/Arrange</Button>-->
+			
+			<NumericUpDown x:Name="upperLimitInput" ShowButtonSpinner="False" ClipValueToMinMax="True" Minimum="10" Maximum="999999999" AllowSpin="False"
+						   Value="{Binding UpperLimit}" IsEnabled="{Binding !IsUpdating}"/>
+			
+			<Button x:Name="goBtn" Content="Calculate!" Command="{Binding StartCalculationCommand}" IsEnabled="{Binding !IsUpdating}"/>
+			
 			<Border>
 				<Border.Width>
 					<MultiBinding Converter="{StaticResource itemCountToSizeConverter}">

@@ -22,22 +22,42 @@ namespace UlamSpiral.Views
     public partial class MainView : UserControl   
     {
         public double Radius = 5;
+        bool goBtnIsReset = false;
 
         public MainView()
         {
             InitializeComponent();
-            itemsControl.SizeChanged += ItemsControlSizeChanged;
-            itemsControl.PropertyChanged += ItemsControlPropertyChanged;
+            //itemsControl.SizeChanged += ItemsControlSizeChanged;
+            //itemsControl.PropertyChanged += ItemsControlPropertyChanged;
+            //goBtn.CommandParameter = "";
         }
 
-        private void ItemsControlPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
-        {
-            Debug.WriteLine("Property changed");
-        }
+        //private void ItemsControlPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+        //{
+        //    Debug.WriteLine("Property changed");
+        //}
 
-        private void ItemsControlSizeChanged(object? sender, SizeChangedEventArgs e)
+        //private void ItemsControlSizeChanged(object? sender, SizeChangedEventArgs e)
+        //{
+        //    Debug.WriteLine("Size changed");
+        //}
+
+        void OnGoBtnClick(object? sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Size changed");
+            //if (goBtnIsReset == false)
+            //{
+            //    upperLimitInput.IsEnabled = false;
+            //    goBtn.Content = "Reset";
+            //    goBtn.CommandParameter = "Reset";
+            //    goBtnIsReset = true;
+            //}
+            //else
+            //{
+            //    upperLimitInput.IsEnabled = true;
+            //    goBtn.Content = "Calculate!";
+            //    goBtn.CommandParameter = "";
+            //    goBtnIsReset = false;
+            //}
         }
     }
 }
