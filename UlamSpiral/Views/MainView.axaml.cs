@@ -17,27 +17,25 @@ using System.Reactive.Linq;
 using System.Windows.Input;
 using System.Linq;
 using Avalonia.Threading;
+using System.Threading.Tasks;
 
 namespace UlamSpiral.Views
 {
     public partial class MainView : UserControl   
     {
         public double Radius = 5;
-        bool goBtnIsReset = false;
-
+    
         public MainView()
         {
-            InitializeComponent();            
+            InitializeComponent();
             //itemsControl.SizeChanged += ItemsControlSizeChanged;
             //itemsControl.PropertyChanged += ItemsControlPropertyChanged;
             //goBtn.CommandParameter = "";
-            
         }
 
-        void OnMainViewLoaded(object sender, RoutedEventArgs e)
+        void OnGridLoaded(object sender, RoutedEventArgs e)
         {
-            var mainViewModel = (MainViewModel)this.DataContext;
-            mainViewModel.viewDispatcher = Dispatcher.UIThread;
+            ((MainViewModel)(this.DataContext)).ViewIsLoaded = true;
         }
 
         //private void ItemsControlPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)

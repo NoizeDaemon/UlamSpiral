@@ -11,8 +11,7 @@
              Foreground="White"
              Background="#171C2C"
 			 x:DataType="viewModels:MainViewModel"
-			 x:CompileBindings="True"
-			 Loaded="OnMainViewLoaded">
+			 x:CompileBindings="True">
 	<Design.DataContext>
 		<!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
@@ -56,7 +55,7 @@
 
 
 
-	<Grid RowDefinitions="Auto,*" Margin="10" x:Name="mainGrid">
+	<Grid RowDefinitions="Auto,*" Margin="10" x:Name="mainGrid" Loaded="OnGridLoaded">
 
 		<!--vvv Works fine vvv-->
 		<!--<RelativePanel Grid.Row="0" Margin="10">
@@ -101,14 +100,16 @@
 
 		<StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
 			
-			<TextBlock Text="Find all prime numbers up to:" VerticalAlignment="Center"/>
+			<!--<TextBlock Text="Find all prime numbers up to:" VerticalAlignment="Center"/>
 			
 			<NumericUpDown x:Name="upperLimitInput" ShowButtonSpinner="False" ClipValueToMinMax="True" Minimum="10" Maximum="999999999" AllowSpin="False"
 						   Value="{Binding UpperLimit}" IsEnabled="{Binding !IsUpdating}"/>
 			
-			<Button x:Name="goBtn" Content="Calculate!" Command="{Binding StartCalculationCommand}" IsEnabled="{Binding !IsUpdating}"/>
-			
-			<Border>
+			<Button x:Name="goBtn" Content="Calculate!" Command="{Binding StartCalculationCommand}" IsEnabled="{Binding !IsUpdating}"/>-->
+
+			<TextBlock Text="Numbers calculated:" VerticalAlignment="Center"/>
+			<TextBlock Text="{Binding CalculationProgress}" VerticalAlignment="Center"/>
+			<!--<Border>
 				<Border.Width>
 					<MultiBinding Converter="{StaticResource itemCountToSizeConverter}">
 						<Binding Path="NumberItems.Count" Mode="OneWay"/>
@@ -116,10 +117,10 @@
 					</MultiBinding>
 				</Border.Width>
 				<Ellipse Stretch="Uniform" Fill="White"/>
-			</Border>
+			</Border>-->
 		</StackPanel>
 
-		<ItemsControl Grid.Row="1" Items="{Binding NumberItems}" x:Name="itemsControl">
+		<ItemsControl Grid.Row="1" Items="{Binding NumberItems, Mode=OneWay}" x:Name="itemsControl">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
 					<RelativePanel x:Name="relativePanel"/>
