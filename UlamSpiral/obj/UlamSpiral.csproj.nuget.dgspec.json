@@ -50,10 +50,6 @@
               "target": "Package",
               "version": "[11.0.999-cibuild0030108-beta, )"
             },
-            "Avalonia.Diagnostics": {
-              "target": "Package",
-              "version": "[11.0.999-cibuild0030108-beta, )"
-            },
             "Avalonia.ReactiveUI": {
               "target": "Package",
               "version": "[11.0.999-cibuild0030108-beta, )"

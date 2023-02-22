@@ -11,7 +11,8 @@
              Foreground="White"
              Background="#171C2C"
 			 x:DataType="viewModels:MainViewModel"
-			 x:CompileBindings="True">
+			 x:CompileBindings="True"
+			 Loaded="OnMainViewLoaded">
 	<Design.DataContext>
 		<!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
@@ -32,6 +33,7 @@
 			<Setter Property="RelativePanel.AlignVerticalCenterWithPanel" Value="{Binding Neighbor, Converter={x:Static StringConverters.IsNullOrEmpty}, DataType={x:Type model:NumberItem}}"/>
 			<Setter Property="Name" Value="{Binding Name, DataType={x:Type model:NumberItem}}"/>
 			<Setter Property="local:EasyAlignWith.Direction" Value="{Binding Direction, DataType={x:Type model:NumberItem}}"/>
+			<Setter Property="IsVisible" Value="{Binding Visible, DataType={x:Type model:NumberItem}}"/>
 			<Setter Property="local:EasyAlignWith.Target">
 				<Setter.Value>
 					<MultiBinding Converter="{StaticResource stringToControlConverter}">

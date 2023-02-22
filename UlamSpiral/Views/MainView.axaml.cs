@@ -1,12 +1,12 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
+using Avalonia.Controls.Generators;
 using Avalonia.Data;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.VisualTree;
 using DynamicData.Binding;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using UlamSpiral.ViewModels;
 using ReactiveUI;
 using System;
@@ -16,6 +16,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using System.Linq;
+using Avalonia.Threading;
 
 namespace UlamSpiral.Views
 {
@@ -26,10 +27,17 @@ namespace UlamSpiral.Views
 
         public MainView()
         {
-            InitializeComponent();
+            InitializeComponent();            
             //itemsControl.SizeChanged += ItemsControlSizeChanged;
             //itemsControl.PropertyChanged += ItemsControlPropertyChanged;
             //goBtn.CommandParameter = "";
+            
+        }
+
+        void OnMainViewLoaded(object sender, RoutedEventArgs e)
+        {
+            var mainViewModel = (MainViewModel)this.DataContext;
+            mainViewModel.viewDispatcher = Dispatcher.UIThread;
         }
 
         //private void ItemsControlPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)

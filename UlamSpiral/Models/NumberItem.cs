@@ -27,6 +27,9 @@ namespace UlamSpiral.Models
 
         [ObservableProperty]
         private string? _neighbor;
+
+        [ObservableProperty]
+        private bool _visible = true;
     }
 
     public enum Direction
